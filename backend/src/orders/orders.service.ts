@@ -13,7 +13,7 @@ export class OrdersService {
   ) {}
 
   async createOrder() {
-    const cart = this.cartService.getCart();
+    const cart = await this.cartService.getCart();
 
     if (cart.items.length === 0) {
       throw new Error('Cart is empty');

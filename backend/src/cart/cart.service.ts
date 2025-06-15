@@ -1,59 +1,68 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { CartItem } from './cart-item.entity';
 import { ProductsService } from '../products/products.service';
-import { CartItem } from './interfaces/cart-item.interface';
 
 @Injectable()
 export class CartService {
-  private cart: CartItem[] = [];
+  constructor(
+    @InjectRepository(CartItem)
+    private readonly cartRepository: Repository<CartItem>,
+    private readonly productsService: ProductsService,
+  ) {}
 
-  constructor(private readonly productsService: ProductsService) {}
-
-  async addToCart(productId: string, quantity: number = 1) {
-    const existingItem = this.cart.find((item) => item.productId === productId);
+  async addToCart(productId: string, quantity: number) {
+    const existingItem = await this.cartRepository.findOneBy({ productId });
 
     if (existingItem) {
       existingItem.quantity += quantity;
+      await this.cartRepository.save(existingItem);
     } else {
       const product = await this.productsService.getProductById(productId);
       if (!product) {
         throw new NotFoundException(`Product with ID ${productId} not found`);
       }
 
-      this.cart.push({
+      const cartItem = this.cartRepository.create({
         productId,
         quantity,
         product,
       });
+
+      await this.cartRepository.save(cartItem);
     }
 
     return { message: 'Product added to cart' };
   }
 
-  getCart(): { items: CartItem[]; total: number } {
+  async getCart() {
+    const items = await this.cartRepository.find();
+    const total = items.reduce(
+      (sum, item) => sum + parseFloat(item.product.preco) * item.quantity,
+      0,
+    );
+
     return {
-      items: this.cart,
-      total: this.getTotal(),
+      items,
+      total,
     };
   }
 
-  removeFromCart(productId: string) {
-    const index = this.cart.findIndex((item) => item.productId === productId);
-    if (index === -1) {
-      throw new NotFoundException(`Product with ID ${productId} not found in cart`);
+  async removeFromCart(productId: string) {
+    const item = await this.cartRepository.findOneBy({ productId });
+    if (!item) {
+      throw new NotFoundException(
+        `Product with ID ${productId} not found in cart`,
+      );
     }
 
-    this.cart.splice(index, 1);
+    await this.cartRepository.remove(item);
     return { message: 'Product removed from cart' };
   }
 
-  clearCart() {
-    this.cart = [];
+  async clearCart() {
+    await this.cartRepository.clear();
     return { message: 'Cart cleared' };
-  }
-
-  private getTotal() {
-    return this.cart.reduce((sum, item) => {
-      return sum + parseFloat(item.product.preco) * item.quantity;
-    }, 0);
   }
 }
