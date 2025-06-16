@@ -38,6 +38,7 @@ interface Order {
 
 export default function Orders() {
   const [orders, setOrders] = useState<Order[]>([]);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const loadOrders = async () => {
     const response = await api.get('/orders');
@@ -45,9 +46,13 @@ export default function Orders() {
   };
 
   const handleStatusChange = async (orderId: number, newStatus: string) => {
-    await api.patch(`/orders/${orderId}/status`, {
-      status: newStatus,
-    });
+    await api.patch(`/orders/${orderId}/status`, { status: newStatus });
+    loadOrders();
+  };
+
+  const handleClearOrders = async () => {
+    await api.delete('/orders');
+    setShowConfirm(false);
     loadOrders();
   };
 
@@ -57,7 +62,15 @@ export default function Orders() {
 
   return (
     <div className="p-6">
-      <h1 className="text-3xl font-bold mb-6">Orders</h1>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold">Orders</h1>
+        <button
+          onClick={() => setShowConfirm(true)}
+          className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
+        >
+          Clear Orders
+        </button>
+      </div>
 
       {orders.length === 0 ? (
         <p className="text-gray-600">No orders found.</p>
@@ -70,9 +83,7 @@ export default function Orders() {
             >
               <div className="flex justify-between items-center">
                 <div>
-                  <h2 className="text-xl font-semibold">
-                    Order #{order.id}
-                  </h2>
+                  <h2 className="text-xl font-semibold">Order #{order.id}</h2>
                   <p className="text-gray-600">
                     Date: {new Date(order.createdAt).toLocaleString()}
                   </p>
@@ -80,14 +91,18 @@ export default function Orders() {
 
                 <div className="flex items-center gap-4">
                   <span
-                    className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(order.status)}`}
+                    className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(
+                      order.status,
+                    )}`}
                   >
                     {order.status}
                   </span>
 
                   <select
                     value={order.status}
-                    onChange={(e) => handleStatusChange(order.id, e.target.value)}
+                    onChange={(e) =>
+                      handleStatusChange(order.id, e.target.value)
+                    }
                     className="border rounded px-2 py-1"
                   >
                     <option value="pending">Pending</option>
@@ -112,7 +127,9 @@ export default function Orders() {
                     />
                     <div className="flex-1">
                       <p className="font-semibold">{item.product.nome}</p>
-                      <p className="text-gray-600">{item.product.descricao}</p>
+                      <p className="text-gray-600">
+                        {item.product.descricao}
+                      </p>
                       <p>
                         Quantity: {item.quantity} | Unit Price: R${' '}
                         {item.product.preco}
@@ -141,6 +158,31 @@ export default function Orders() {
           ← Back to Products
         </Link>
       </div>
+
+      {/* ✅ Modal de confirmação */}
+      {showConfirm && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white rounded-lg p-6 shadow-lg w-96">
+            <h2 className="text-xl font-semibold mb-4">
+              Are you sure you want to delete all orders?
+            </h2>
+            <div className="flex justify-end gap-4">
+              <button
+                onClick={() => setShowConfirm(false)}
+                className="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleClearOrders}
+                className="px-4 py-2 rounded bg-red-500 text-white hover:bg-red-600"
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Products from './pages/Products';
 import Cart from './pages/Cart';
 import Orders from './pages/Orders';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
@@ -22,6 +24,7 @@ function App() {
             <Route path="/cart" element={<Cart />} />
             <Route path="/orders" element={<Orders />} />
           </Routes>
+          <ToastContainer />
         </main>
       </div>
     </BrowserRouter>
