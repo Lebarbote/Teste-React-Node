@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
 export class Order {
@@ -6,11 +6,14 @@ export class Order {
   id: number;
 
   @Column('simple-json')
-  items: any[]; 
+  items: any[];
 
   @Column()
   total: number;
 
   @Column()
   createdAt: Date;
+
+  @Column({ default: 'pending' })
+  status: string;
 }
