@@ -71,9 +71,9 @@ export default function Cart() {
                 <h2 className="text-xl font-semibold">{item.product.nome}</h2>
                 <p className="text-gray-600">{item.product.descricao}</p>
                 <p className="mt-1">Quantity: {item.quantity}</p>
-                <p>Unit Price: R$ {item.product.preco}</p>
+                <p>Unit Price: US$ {item.product.preco}</p>
                 <p className="font-bold">
-                  Subtotal: R${' '}
+                  Subtotal: US${' '}
                   {(parseFloat(item.product.preco) * item.quantity).toFixed(2)}
                 </p>
                 <button
@@ -87,7 +87,7 @@ export default function Cart() {
           ))}
 
           <div className="bg-white rounded-lg shadow-md p-4">
-            <p className="text-2xl font-bold">Total: R$ {total.toFixed(2)}</p>
+            <p className="text-2xl font-bold">Total: US$ {total.toFixed(2)}</p>
             <div className="flex gap-4 mt-4">
               <button
                 onClick={handleClearCart}
@@ -99,7 +99,7 @@ export default function Cart() {
                 onClick={handleCheckout}
                 className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"
               >
-                Checkout
+                Submit
               </button>
             </div>
           </div>

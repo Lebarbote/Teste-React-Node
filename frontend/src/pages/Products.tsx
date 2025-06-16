@@ -42,7 +42,7 @@ export default function Products() {
             />
             <h2 className="text-xl font-semibold mt-4">{product.nome}</h2>
             <p className="text-gray-600">{product.descricao}</p>
-            <p className="text-lg font-bold mt-2">R$ {product.preco}</p>
+            <p className="text-lg font-bold mt-2">US$ {product.preco}</p>
 
             <button
               onClick={() => handleAddToCart(product.id)}
