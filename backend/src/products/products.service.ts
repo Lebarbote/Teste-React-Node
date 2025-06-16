@@ -14,12 +14,30 @@ export class ProductsService {
       firstValueFrom(this.httpService.get(this.brazilianApi)),
       firstValueFrom(this.httpService.get(this.europeanApi)),
     ]);
-
-    return [...brazilian.data, ...european.data];
+  
+    const formattedBrazilian = brazilian.data.map((item: any) => ({
+      id: item.id,
+      nome: item.nome,
+      descricao: item.descricao,
+      preco: item.preco,
+      imagem: item.imagem,
+      origem: 'Brasil',
+    }));
+  
+    const formattedEuropean = european.data.map((item: any) => ({
+      id: item.id,
+      nome: item.name,
+      descricao: item.description,
+      preco: item.price,
+      imagem: item.gallery, 
+      origem: 'Europe',
+    }));
+  
+    return [...formattedBrazilian, ...formattedEuropean];
   }
+  
 
   async getProductById(id: string) {
-    // Tenta buscar nas duas APIs
     const urls = [
       `${this.brazilianApi}/${id}`,
       `${this.europeanApi}/${id}`,
@@ -32,7 +50,6 @@ export class ProductsService {
           return response.data;
         }
       } catch {
-        // Ignora erro e tenta na próxima API
       }
     }
     throw new Error('Product not found');
