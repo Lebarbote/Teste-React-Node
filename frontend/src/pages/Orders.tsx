@@ -2,6 +2,23 @@ import { useEffect, useState } from 'react';
 import { api } from '../services/api';
 import { Link } from 'react-router-dom';
 
+const getStatusColor = (status: string) => {
+  switch (status) {
+    case 'pending':
+      return 'bg-blue-100 text-blue-600';
+    case 'paid':
+      return 'bg-green-100 text-green-600';
+    case 'shipped':
+      return 'bg-yellow-100 text-yellow-700';
+    case 'delivered':
+      return 'bg-green-200 text-green-800';
+    case 'cancelled':
+      return 'bg-red-100 text-red-600';
+    default:
+      return 'bg-gray-100 text-gray-600';
+  }
+};
+
 interface Order {
   id: number;
   createdAt: string;
@@ -25,6 +42,13 @@ export default function Orders() {
   const loadOrders = async () => {
     const response = await api.get('/orders');
     setOrders(response.data);
+  };
+
+  const handleStatusChange = async (orderId: number, newStatus: string) => {
+    await api.patch(`/orders/${orderId}/status`, {
+      status: newStatus,
+    });
+    loadOrders();
   };
 
   useEffect(() => {
@@ -53,10 +77,25 @@ export default function Orders() {
                     Date: {new Date(order.createdAt).toLocaleString()}
                   </p>
                 </div>
-                <div>
-                  <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
+
+                <div className="flex items-center gap-4">
+                  <span
+                    className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(order.status)}`}
+                  >
                     {order.status}
                   </span>
+
+                  <select
+                    value={order.status}
+                    onChange={(e) => handleStatusChange(order.id, e.target.value)}
+                    className="border rounded px-2 py-1"
+                  >
+                    <option value="pending">Pending</option>
+                    <option value="paid">Paid</option>
+                    <option value="shipped">Shipped</option>
+                    <option value="delivered">Delivered</option>
+                    <option value="cancelled">Cancelled</option>
+                  </select>
                 </div>
               </div>
 
@@ -75,12 +114,12 @@ export default function Orders() {
                       <p className="font-semibold">{item.product.nome}</p>
                       <p className="text-gray-600">{item.product.descricao}</p>
                       <p>
-                        Quantity: {item.quantity} | Unit Price: US${' '}
+                        Quantity: {item.quantity} | Unit Price: R${' '}
                         {item.product.preco}
                       </p>
                     </div>
                     <p className="font-bold">
-                      Subtotal: US${' '}
+                      Subtotal: R${' '}
                       {(
                         parseFloat(item.product.preco) * item.quantity
                       ).toFixed(2)}
@@ -90,7 +129,7 @@ export default function Orders() {
               </div>
 
               <div className="text-right text-xl font-bold">
-                Total: US$ {order.total.toFixed(2)}
+                Total: R$ {order.total.toFixed(2)}
               </div>
             </div>
           ))}
