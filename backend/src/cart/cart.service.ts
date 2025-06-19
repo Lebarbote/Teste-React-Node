@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CartItem } from './cart-item.entity';
@@ -12,53 +12,44 @@ export class CartService {
     private readonly productsService: ProductsService,
   ) {}
 
-  async addToCart(productId: string, quantity: number) {
-    const existingItem = await this.cartRepository.findOneBy({ productId });
-
-    if (existingItem) {
-      existingItem.quantity += quantity;
-      await this.cartRepository.save(existingItem);
-    } else {
-      const product = await this.productsService.getProductById(productId);
-      if (!product) {
-        throw new NotFoundException(`Product with ID ${productId} not found`);
-      }
-
-      const cartItem = this.cartRepository.create({
-        productId,
-        quantity,
-        product,
-      });
-
-      await this.cartRepository.save(cartItem);
-    }
-
-    return { message: 'Product added to cart' };
-  }
-
   async getCart() {
     const items = await this.cartRepository.find();
     const total = items.reduce(
-      (sum, item) => sum + parseFloat(item.product.preco) * item.quantity,
+      (acc, item) => acc + Number(item.preco) * item.quantity,
       0,
     );
-
-    return {
-      items,
-      total,
-    };
+    return { items, total };
   }
 
-  async removeFromCart(productId: string) {
-    const item = await this.cartRepository.findOneBy({ productId });
-    if (!item) {
-      throw new NotFoundException(
-        `Product with ID ${productId} not found in cart`,
-      );
+  async addToCart(productId: string, quantity: number) {
+    const product = await this.productsService.getProductById(productId);
+
+    if (!product) {
+      throw new Error('Product not found');
     }
 
-    await this.cartRepository.remove(item);
-    return { message: 'Product removed from cart' };
+    const existingItem = await this.cartRepository.findOneBy({
+      productId,
+    });
+
+    if (existingItem) {
+      existingItem.quantity += quantity;
+      return this.cartRepository.save(existingItem);
+    }
+
+    const newItem = this.cartRepository.create({
+      productId: product.id,
+      nome: product.nome,
+      preco: product.preco,
+      quantity,
+    });
+
+    return this.cartRepository.save(newItem);
+  }
+
+  async removeFromCart(id: string) {
+    await this.cartRepository.delete({ productId: id });
+    return { message: 'Item removed from cart' };
   }
 
   async clearCart() {

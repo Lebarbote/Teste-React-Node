@@ -1,24 +1,23 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule } from '@nestjs/config';
-import { ProductsModule } from './products/products.module';
-import { CartModule } from './cart/cart.module';
-import { OrdersModule } from './orders/orders.module';
-import { CartItem } from './cart/cart-item.entity';
+import { ProductsController } from './products/products.controller';
+import { ProductsService } from './products/products.service';
+import { OrdersController } from './orders/orders.controller';
+import { OrdersService } from './orders/orders.service';
 import { Order } from './orders/order.entity';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'db.sqlite',
-      entities: [CartItem, Order],
-      synchronize: true, 
+      entities: [Order],
+      synchronize: true,
     }),
-    ProductsModule,
-    CartModule,
-    OrdersModule,
+    TypeOrmModule.forFeature([Order]),
   ],
+  controllers: [ProductsController, OrdersController],
+  providers: [ProductsService, OrdersService],
+
 })
 export class AppModule {}

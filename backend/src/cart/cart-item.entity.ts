@@ -9,8 +9,11 @@ export class CartItem {
   productId: string;
 
   @Column()
-  quantity: number;
+  nome: string;
 
-  @Column('simple-json')
-  product: any;
+  @Column()
+  preco: string;
+
+  @Column()
+  quantity: number;
 }

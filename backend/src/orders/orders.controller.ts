@@ -6,8 +6,9 @@ export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
   @Post()
-  createOrder() {
-    return this.ordersService.createOrder();
+  createOrder(@Body() body: { items: any[]; total: number }) {
+    const { items, total } = body;
+    return this.ordersService.createOrder(items, total);
   }
 
   @Get()
@@ -23,7 +24,7 @@ export class OrdersController {
   @Patch(':id/status')
   updateStatus(
     @Param('id', ParseIntPipe) id: number,
-    @Body('status') status: string
+    @Body('status') status: string,
   ) {
     return this.ordersService.updateStatus(id, status);
   }
