@@ -1,4 +1,5 @@
-Este é um projeto fullstack desenvolvido para o desafio técnico. Trata-se de um e-commerce completo, capaz de:
+<h1> Este é um projeto fullstack desenvolvido para o desafio técnico. Trata-se de um e-commerce completo, capaz de: </h1>
+
 
 - Consumir produtos de dois fornecedores externos (Brasil e Europa);
 - Permitir ao usuário visualizar produtos, adicionar ao carrinho e finalizar pedidos;
@@ -6,56 +7,65 @@ Este é um projeto fullstack desenvolvido para o desafio técnico. Trata-se de u
 - Disponível tanto em versão web (React) quanto em versão mobile (Flutter).
 
 
-🛠️ Tecnologias Utilizadas
-🔹 Frontend (Web)
-React
-Vite
-TypeScript
-TailwindCSS
-React Router
-Axios
-React Toastify
+<h2> 🛠️ Tecnologias Utilizadas <h2> 
 
-🔹 Backend (API)
-Node.js
-NestJS
-TypeORM
-SQLite (banco de dados local)
-Axios (consumo de APIs externas)
-Validation Pipe 
+<h3>🔹 Frontend (Web):<h3>
+<ul>
+    <li>React</li>
+    <li>Vite</li>
+    <li>TypeScript</li>
+    <li>TailwindCSS</li>
+    <li>Axios</li>
+    <li>React Router</li>
+    <li>React Toastify</li>
+  </ul>
 
-🔹 Mobile (App)
-Flutter
-Dart
-Gerenciamento de estado 
-Integração com API via HTTP (Dio ou http)
+<h3>🔹 Backend (API):<h3>
+<ul>
+    <li>Node.js</li>
+    <li>NestJS</li>
+    <li>TypeORM</li>
+    <li>SQLite (banco local)</li>
+    <li>Axios</li>
+    <li>Validation Pipe</li>
+  </ul>
+
+<h3>🔹 Mobile (App): </h3>
+<ul>
+    <li>Flutter</li>
+    <li>Dart</li>
+    <li>Gerenciamento de estado </li>
+    <li>Integração com API via HTTP (Dio ou http)</li>
+</ul>
 
 
-🛠️ (APIs Externas)
-🇧🇷 Fornecedor Brasileiro:
-http://616d6bdb6dacbb001794ca17.mockapi.io/devnology/brazilian_provider
+<h2>🛠️ (APIs Externas) </h2>
+ <p>Os produtos são consumidos a partir das seguintes APIs:</p>
 
-🇪🇺 Fornecedor Europeu:
-http://616d6bdb6dacbb001794ca17.mockapi.io/devnology/european_provider
+  <ul>
+    <li>Fornecedor <strong>Brasileiro</strong>: <a href="http://616d6bdb6dacbb001794ca17.mockapi.io/devnology/brazilian_provider" target="_blank">Clique aqui</a></li>
+    <li>Fornecedor <strong>Europeu</strong>: <a href="http://616d6bdb6dacbb001794ca17.mockapi.io/devnology/european_provider" target="_blank">Clique aqui</a></li>
+  </ul>
 
 
-🛠️ Como rodar o projeto localmente
-Backend (NestJS API):
-cd backend
+<h2>🛠️ Como rodar o projeto localmente</h2>
+<h3>Backend (NestJS)</h3>
+  <pre><code>cd backend
 npm install
-npm run start:dev
-http://localhost:3333
+npm run start:dev</code></pre>
+  <p>Acesse a API em: <a href="http://localhost:3333">http://localhost:3333</a></p>
 
-Frontend (React):
-cd frontend
+  <h3>Frontend (React)</h3>
+  <pre><code>cd frontend
 npm install
-npm run dev
-http://localhost:3000
-( > Caso a porta 3000 esteja ocupada, o React executará automaticamente na porta 3001 (ou outra disponível). O terminal perguntará se deseja mudar, basta confirmar com yes)
+npm start</code></pre>
+  <p>Acesse a aplicação web em: <a href="http://localhost:3001">http://localhost:3001</a></p>
+  <p><strong>Observação:</strong> Se a porta 3000 estiver ocupada, o React rodará automaticamente na 3001 ou outra disponível, mediante confirmação no terminal.</p>
 
-Mobile (Flutter):
-cd ecommerce_flutter
+  <h3>Mobile (Flutter - Opcional)</h3>
+  <pre><code>cd ecommerce_flutter
 flutter pub get
-flutter run
-(pode ser executado em emuladores Android, iOS ou dispositivos físicos.)
+flutter run</code></pre>
+  <p>Execute em emuladores ou dispositivos físicos Android/iOS.</p>
 
+  <hr>
