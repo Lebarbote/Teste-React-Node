@@ -1,51 +1,33 @@
-import { useEffect, useState } from 'react';
+import { useCart } from '../context/CartContext';
+import { Link } from 'react-router-dom';
 import { api } from '../services/api';
-import { Link, useNavigate } from 'react-router-dom';
-
-interface CartItem {
-  id: number;
-  productId: string;
-  quantity: number;
-  product: {
-    nome: string;
-    descricao: string;
-    preco: string;
-    imagem: string;
-  };
-}
+import { toast } from 'react-toastify';
 
 export default function Cart() {
-  const [cart, setCart] = useState<CartItem[]>([]);
-  const [total, setTotal] = useState(0);
-  const navigate = useNavigate();
+  const { cart, removeFromCart, clearCart } = useCart();
 
-  const loadCart = async () => {
-    const response = await api.get('/cart');
-    setCart(response.data.items);
-    setTotal(response.data.total);
-  };
+  const handlePlaceOrder = async () => {
+    if (cart.length === 0) {
+      toast.warn('🛒 Your cart is empty!');
+      return;
+    }
 
-  useEffect(() => {
-    loadCart();
-  }, []);
+    const total = cart.reduce(
+      (acc, item) => acc + Number(item.preco) * item.quantity,
+      0
+    );
 
-  const handleRemove = async (productId: string) => {
-    await api.delete(`/cart/remove/${productId}`);
-    loadCart();
-  };
-
-  const handleClearCart = async () => {
-    await api.delete('/cart/clear');
-    loadCart();
-  };
-
-  const handleCheckout = async () => {
     try {
-      await api.post('/orders');
-      alert('Order created successfully!');
-      navigate('/orders');
-    } catch (err) {
-      alert('Error placing the order. Is your cart empty?');
+      await api.post('/orders', {
+        items: cart,
+        total,
+      });
+
+      toast.success('✅ Order placed successfully!');
+      clearCart();
+    } catch (error) {
+      console.error('Error placing order:', error);
+      toast.error('❌ Failed to place order');
     }
   };
 
@@ -54,60 +36,50 @@ export default function Cart() {
       <h1 className="text-3xl font-bold mb-6">Cart</h1>
 
       {cart.length === 0 ? (
-        <p className="text-gray-600">Your cart is empty.</p>
+        <p>Your cart is empty.</p>
       ) : (
-        <div className="flex flex-col gap-6">
-          {cart.map((item) => (
-            <div
-              key={item.id}
-              className="bg-white rounded-lg shadow-md p-4 flex gap-6"
-            >
-              <img
-                src={item.product.imagem}
-                alt={item.product.nome}
-                className="w-32 h-32 object-cover rounded"
-              />
-              <div className="flex-1">
-                <h2 className="text-xl font-semibold">{item.product.nome}</h2>
-                <p className="text-gray-600">{item.product.descricao}</p>
-                <p className="mt-1">Quantity: {item.quantity}</p>
-                <p>Unit Price: US$ {item.product.preco}</p>
-                <p className="font-bold">
-                  Subtotal: US${' '}
-                  {(parseFloat(item.product.preco) * item.quantity).toFixed(2)}
-                </p>
+        <>
+          <ul className="space-y-4">
+            {cart.map((item) => (
+              <li
+                key={item.id}
+                className="border-b pb-4 flex justify-between items-center"
+              >
+                <div>
+                  <p className="font-semibold">{item.nome}</p>
+                  <p>Quantity: {item.quantity}</p>
+                  <p>Price: US$ {item.preco}</p>
+                </div>
                 <button
-                  onClick={() => handleRemove(item.productId)}
-                  className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded mt-2"
+                  onClick={() => removeFromCart(item.id)}
+                  className="bg-red-500 text-white px-3 py-1 rounded"
                 >
                   Remove
                 </button>
-              </div>
-            </div>
-          ))}
+              </li>
+            ))}
+          </ul>
 
-          <div className="bg-white rounded-lg shadow-md p-4">
-            <p className="text-2xl font-bold">Total: US$ {total.toFixed(2)}</p>
-            <div className="flex gap-4 mt-4">
-              <button
-                onClick={handleClearCart}
-                className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded"
-              >
-                Clear Cart
-              </button>
-              <button
-                onClick={handleCheckout}
-                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"
-              >
-                Submit
-              </button>
-            </div>
+          <div className="flex space-x-4 mt-6">
+            <button
+              onClick={clearCart}
+              className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded"
+            >
+              Clear Cart
+            </button>
+
+            <button
+              onClick={handlePlaceOrder}
+              className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"
+            >
+              Place Order
+            </button>
           </div>
-        </div>
+        </>
       )}
 
-      <div className="mt-8">
-        <Link to="/" className="underline">
+      <div className="mt-6">
+        <Link to="/products" className="text-blue-600 hover:underline">
           ← Back to Products
         </Link>
       </div>

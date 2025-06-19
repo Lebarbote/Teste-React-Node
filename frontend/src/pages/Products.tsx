@@ -1,33 +1,31 @@
 import { useEffect, useState } from 'react';
 import { api } from '../services/api';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { useCart, Product } from '../context/CartContext';
 
-interface Product {
-  id: string;
-  nome: string;
-  descricao: string;
-  preco: string;
-  imagem: string;
-  origem: string; 
-}
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Products() {
   const [products, setProducts] = useState<Product[]>([]);
+  const { addToCart } = useCart();
 
   useEffect(() => {
     api.get('/products').then((response) => {
-      setProducts(response.data);
+      const filtered = response.data.filter(
+        (p: Product) =>
+          p.nome?.trim() !== '' &&
+          p.descricao?.trim() !== '' &&
+          p.preco?.trim() !== '' &&
+          p.imagem?.trim() !== '' &&
+          p.origem?.trim() !== ''
+      );
+      setProducts(filtered);
     });
   }, []);
 
   const handleAddToCart = (product: Product) => {
-    api.post('/cart/add', {
-      productId: product.id,
-      quantity: 1,
-    });
-  
-    toast.success('🛒 Added to cart');
+    addToCart(product);
+    toast.success('🛒 Added to cart!');
   };
 
   return (
@@ -40,17 +38,11 @@ export default function Products() {
             key={product.id}
             className="bg-white rounded-lg shadow-md p-4 flex flex-col"
           >
-            {product.imagem ? (
-              <img
-                src={product.imagem}
-                alt={product.nome}
-                className="w-full h-48 object-cover rounded"
-              />
-            ) : (
-              <div className="w-full h-48 bg-gray-100 flex items-center justify-center rounded">
-                <span className="text-gray-500">No Image</span>
-              </div>
-            )}
+            <img
+              src={product.imagem}
+              alt={product.nome}
+              className="w-full h-48 object-cover rounded"
+            />
 
             <div className="flex justify-between items-center mt-4">
               <h2 className="text-xl font-semibold">{product.nome}</h2>
@@ -64,7 +56,6 @@ export default function Products() {
               >
                 {product.origem}
               </span>
-
             </div>
 
             <p className="text-gray-600">{product.descricao}</p>

@@ -25,14 +25,10 @@ interface Order {
   status: string;
   total: number;
   items: {
-    productId: string;
+    id: string;
+    nome: string;
+    preco: string;
     quantity: number;
-    product: {
-      nome: string;
-      descricao: string;
-      preco: string;
-      imagem: string;
-    };
   }[];
 }
 
@@ -120,33 +116,22 @@ export default function Orders() {
                     key={index}
                     className="flex gap-4 items-center border-b pb-2"
                   >
-                    <img
-                      src={item.product.imagem}
-                      alt={item.product.nome}
-                      className="w-20 h-20 object-cover rounded"
-                    />
                     <div className="flex-1">
-                      <p className="font-semibold">{item.product.nome}</p>
-                      <p className="text-gray-600">
-                        {item.product.descricao}
-                      </p>
+                      <p className="font-semibold">{item.nome}</p>
+                      <p>Quantity: {item.quantity}</p>
+                      <p>Unit Price: US$ {item.preco}</p>
                       <p>
-                        Quantity: {item.quantity} | Unit Price: R${' '}
-                        {item.product.preco}
+                        Subtotal: US$ {(
+                          Number(item.preco) * item.quantity
+                        ).toFixed(2)}
                       </p>
                     </div>
-                    <p className="font-bold">
-                      Subtotal: R${' '}
-                      {(
-                        parseFloat(item.product.preco) * item.quantity
-                      ).toFixed(2)}
-                    </p>
                   </div>
                 ))}
               </div>
 
               <div className="text-right text-xl font-bold">
-                Total: R$ {order.total.toFixed(2)}
+                Total: US$ {order.total.toFixed(2)}
               </div>
             </div>
           ))}
@@ -159,7 +144,6 @@ export default function Orders() {
         </Link>
       </div>
 
-      {/* ✅ Modal de confirmação */}
       {showConfirm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-lg p-6 shadow-lg w-96">
