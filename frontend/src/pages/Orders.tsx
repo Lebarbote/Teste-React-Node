@@ -27,6 +27,7 @@ interface Order {
   items: {
     id: string;
     nome: string;
+    descricao: string;
     preco: string;
     quantity: number;
   }[];
@@ -58,28 +59,30 @@ export default function Orders() {
 
   return (
     <div className="p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Orders</h1>
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-4xl font-bold">Orders</h1>
         <button
           onClick={() => setShowConfirm(true)}
-          className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
+          className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full shadow active:scale-95"
         >
           Clear Orders
         </button>
       </div>
 
       {orders.length === 0 ? (
-        <p className="text-gray-600">No orders found.</p>
+        <p className="text-center text-gray-600">No orders found.</p>
       ) : (
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-8">
           {orders.map((order) => (
             <div
               key={order.id}
-              className="bg-white rounded-lg shadow-md p-4 flex flex-col gap-4"
+              className="bg-white rounded-2xl shadow-xl p-6 flex flex-col gap-4"
             >
               <div className="flex justify-between items-center">
                 <div>
-                  <h2 className="text-xl font-semibold">Order #{order.id}</h2>
+                  <h2 className="text-xl font-semibold">
+                    Order #{order.id}
+                  </h2>
                   <p className="text-gray-600">
                     Date: {new Date(order.createdAt).toLocaleString()}
                   </p>
@@ -88,7 +91,7 @@ export default function Orders() {
                 <div className="flex items-center gap-4">
                   <span
                     className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(
-                      order.status,
+                      order.status
                     )}`}
                   >
                     {order.status}
@@ -99,7 +102,7 @@ export default function Orders() {
                     onChange={(e) =>
                       handleStatusChange(order.id, e.target.value)
                     }
-                    className="border rounded px-2 py-1"
+                    className="border rounded px-3 py-1"
                   >
                     <option value="pending">Pending</option>
                     <option value="paid">Paid</option>
@@ -110,7 +113,7 @@ export default function Orders() {
                 </div>
               </div>
 
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-3">
                 {order.items.map((item, index) => (
                   <div
                     key={index}
@@ -118,14 +121,17 @@ export default function Orders() {
                   >
                     <div className="flex-1">
                       <p className="font-semibold">{item.nome}</p>
-                      <p>Quantity: {item.quantity}</p>
-                      <p>Unit Price: US$ {item.preco}</p>
+                      <p className="text-gray-600">{item.descricao}</p>
                       <p>
-                        Subtotal: US$ {(
-                          Number(item.preco) * item.quantity
-                        ).toFixed(2)}
+                        Quantity: {item.quantity} | Unit Price: US$ {item.preco}
                       </p>
                     </div>
+                    <p className="font-bold">
+                      Subtotal: US${' '}
+                      {(
+                        parseFloat(item.preco) * item.quantity
+                      ).toFixed(2)}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -138,7 +144,7 @@ export default function Orders() {
         </div>
       )}
 
-      <div className="mt-8">
+      <div className="mt-8 text-center">
         <Link to="/" className="underline">
           ← Back to Products
         </Link>
