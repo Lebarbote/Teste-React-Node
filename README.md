@@ -54,18 +54,22 @@
 npm install
 npm run start:dev</code></pre>
   <p>Acesse a API em: <a href="http://localhost:3333">http://localhost:3333</a></p>
+<a href="https://github.com/Lebarbote/Teste-React-Node/blob/main/backend/README.md" target="_blank">README Backend</a></li>
+
 
   <h3>Frontend (React)</h3>
   <pre><code>cd frontend
 npm install
 npm start</code></pre>
-  <p>Acesse a aplicação web em: <a href="http://localhost:3001">http://localhost:3001</a></p>
-  <p><strong>Observação:</strong> Se a porta 3000 estiver ocupada, o React rodará automaticamente na 3001 ou outra disponível, mediante confirmação no terminal.</p>
+  <p>Acesse a aplicação web em: <a href="http://localhost:3000">http://localhost:3000</a></p>
+<a href="https://github.com/Lebarbote/Teste-React-Node/blob/main/frontend/README.md" target="_blank">README Frontend</a></li>
+  
 
   <h3>Mobile (Flutter - Opcional)</h3>
   <pre><code>cd ecommerce_flutter
 flutter pub get
 flutter run</code></pre>
-  <p>Execute em emuladores ou dispositivos físicos Android/iOS.</p>
+  <p>Execute em emuladores ou dispositivos físicos Android.</p>
+<a href="https://github.com/Lebarbote/Teste-React-Node/blob/main/ecommerce_flutter/README.md" target="_blank">README Ecommerce Flutter</a></li>
 
   <hr>
