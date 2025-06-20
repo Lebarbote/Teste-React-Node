@@ -2,8 +2,8 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
 export class CartItem {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
   productId: string;
@@ -12,7 +12,16 @@ export class CartItem {
   nome: string;
 
   @Column()
+  descricao: string;
+
+  @Column()
   preco: string;
+
+  @Column()
+  imagem: string;
+
+  @Column()
+  origem: string;
 
   @Column()
   quantity: number;

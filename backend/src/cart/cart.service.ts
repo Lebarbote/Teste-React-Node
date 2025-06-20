@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CartItem } from './cart-item.entity';
@@ -8,52 +8,63 @@ import { ProductsService } from '../products/products.service';
 export class CartService {
   constructor(
     @InjectRepository(CartItem)
-    private readonly cartRepository: Repository<CartItem>,
+    private readonly cartItemRepository: Repository<CartItem>,
     private readonly productsService: ProductsService,
   ) {}
-
-  async getCart() {
-    const items = await this.cartRepository.find();
-    const total = items.reduce(
-      (acc, item) => acc + Number(item.preco) * item.quantity,
-      0,
-    );
-    return { items, total };
-  }
 
   async addToCart(productId: string, quantity: number) {
     const product = await this.productsService.getProductById(productId);
 
-    if (!product) {
-      throw new Error('Product not found');
-    }
-
-    const existingItem = await this.cartRepository.findOneBy({
+    const existingItem = await this.cartItemRepository.findOneBy({
       productId,
     });
 
     if (existingItem) {
       existingItem.quantity += quantity;
-      return this.cartRepository.save(existingItem);
+      return this.cartItemRepository.save(existingItem);
     }
 
-    const newItem = this.cartRepository.create({
+    const newItem = this.cartItemRepository.create({
       productId: product.id,
       nome: product.nome,
+      descricao: product.descricao,
       preco: product.preco,
+      imagem: product.imagem,
+      origem: product.origem,
       quantity,
     });
 
-    return this.cartRepository.save(newItem);
+    return this.cartItemRepository.save(newItem);
+  }
+
+  async getCart() {
+    const items = await this.cartItemRepository.find();
+
+    const total = items.reduce(
+      (acc, item) => acc + Number(item.preco) * item.quantity,
+      0,
+    );
+
+    return {
+      items,
+      total,
+    };
   }
 
   async removeFromCart(id: string) {
-    await this.cartRepository.delete({ productId: id });
+    const item = await this.cartItemRepository.findOneBy({ id });
+
+    if (!item) {
+      throw new NotFoundException('Item not found in cart');
+    }
+
+    await this.cartItemRepository.remove(item);
+
     return { message: 'Item removed from cart' };
   }
 
   async clearCart() {
-    await this.cartRepository.clear();
+    await this.cartItemRepository.clear();
     return { message: 'Cart cleared' };
   }
 }
