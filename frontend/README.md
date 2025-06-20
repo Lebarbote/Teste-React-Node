@@ -1,46 +1,41 @@
-# Getting Started with Create React App
+# FRONTEND 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+O frontend deste projeto é uma aplicação web desenvolvida em React + TypeScript + Vite, que simula um e-commerce simples. O usuário poderá:
 
-## Available Scripts
+Visualizar produtos vindos de dois fornecedores externos (Brasil e Europa);
 
-In the project directory, you can run:
+Adicionar produtos ao carrinho, com persistência via localStorage, ou seja, mesmo ao recarregar a página os itens continuam no carrinho;
 
-### `npm start`
+Remover itens do carrinho ou limpar todo o carrinho;
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Finalizar pedidos que são então enviados para o backend e registrados;
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Consultar os pedidos realizados, acompanhando o status (pending, paid, shipped, delivered, cancelled) com opção de atualizar ou excluir;
 
-### `npm test`
+Receber feedbacks em tempo real através de notificações (Toastify) para ações como adicionar ao carrinho, finalizar pedidos, erros ou avisos;
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+E após finalizar um pedido, o carrinho é esvaziado automaticamente e o usuário é redirecionado para a página de pedidos.
 
-### `npm run build`
+<hr>
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+<h2> 🛠️ Tecnologias Utilizadas <h2> 
+<ul>
+    <li>React</li>
+    <li>Vite</li>
+    <li>TypeScript</li>
+    <li>TailwindCSS</li>
+    <li>Axios</li>
+    <li>React Router</li>
+    <li>React Toastify</li>
+  </ul>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+<h2>🛠️ Como rodar o projeto localmente</h2>
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+<h3>Frontend (React)</h3>
+  <pre><code>cd frontend
+npm install
+npm start</code></pre>
+  <p>Acesse a aplicação web em: <a href="http://localhost:3000">http://localhost:3000</a></p>
+  <p><strong>Observação:</strong> Se a porta 3000 estiver ocupada, o React rodará automaticamente na 3001 ou outra disponível, mediante confirmação no terminal.</p>
