@@ -1,0 +1,82 @@
+[
+  {
+    "id": "11",
+    "name": "Espresso Machine Deluxe",
+    "description": "Italian design with 15-bar pressure.",
+    "brand": "CafféTech",
+    "photo": "https://via.placeholder.com/300x200.png?text=Espresso",
+    "price": 229.9
+  },
+  {
+    "id": "12",
+    "name": "Smart LED Lamp",
+    "description": "Dimmable, Wi-Fi enabled, voice control.",
+    "brand": "Lumi",
+    "photo": "https://via.placeholder.com/300x200.png?text=Lamp",
+    "price": 49.5
+  },
+  {
+    "id": "13",
+    "name": "Bluetooth Noise Cancelling Headphones",
+    "description": "Studio quality sound, foldable design.",
+    "brand": "EuroSound",
+    "photo": "https://via.placeholder.com/300x200.png?text=Headphones",
+    "price": 179.0
+  },
+  {
+    "id": "14",
+    "name": "Wireless Ergonomic Mouse",
+    "description": "Rechargeable with side buttons.",
+    "brand": "ErgoTech",
+    "photo": "https://via.placeholder.com/300x200.png?text=Mouse",
+    "price": 89.9
+  },
+  {
+    "id": "15",
+    "name": "Electric Kettle Fast Boil",
+    "description": "1.7L with auto shut-off.",
+    "brand": "BoilMaster",
+    "photo": "https://via.placeholder.com/300x200.png?text=Kettle",
+    "price": 74.0
+  },
+  {
+    "id": "16",
+    "name": "Robot Vacuum Cleaner",
+    "description": "Wi-Fi control and room mapping.",
+    "brand": "CleanGo",
+    "photo": "https://via.placeholder.com/300x200.png?text=Vacuum",
+    "price": 449.0
+  },
+  {
+    "id": "17",
+    "name": "Standing Desk Converter",
+    "description": "Adjustable height, sturdy design.",
+    "brand": "FlexiDesk",
+    "photo": "https://via.placeholder.com/300x200.png?text=Desk",
+    "price": 299.9
+  },
+  {
+    "id": "18",
+    "name": "Air Purifier Smart",
+    "description": "HEPA filter with app control.",
+    "brand": "PureAir",
+    "photo": "https://via.placeholder.com/300x200.png?text=Purifier",
+    "price": 199.0
+  },
+  {
+    "id": "19",
+    "name": "Slim Power Bank 10000mAh",
+    "description": "USB-C and lightning output.",
+    "brand": "ChargeUp",
+    "photo": "https://via.placeholder.com/300x200.png?text=PowerBank",
+    "price": 69.9
+  },
+  {
+    "id": "20",
+    "name": "Smart Scale Body Analyzer",
+    "description": "Bluetooth sync with mobile app.",
+    "brand": "FitTrack",
+    "photo": "https://via.placeholder.com/300x200.png?text=Scale",
+    "price": 129.0
+  }
+]

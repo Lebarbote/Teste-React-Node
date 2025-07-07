@@ -13,10 +13,10 @@ export class CartService {
   ) {}
 
   async addToCart(productId: string, quantity: number) {
-    const product = await this.productsService.getProductById(productId);
+    const product = await this.productsService.getProductById(Number(productId));
 
     const existingItem = await this.cartItemRepository.findOneBy({
-      productId,
+      productId: product.id,
     });
 
     if (existingItem) {
@@ -26,16 +26,16 @@ export class CartService {
 
     const newItem = this.cartItemRepository.create({
       productId: product.id,
-      nome: product.nome,
-      descricao: product.descricao,
-      preco: product.preco,
-      imagem: product.imagem,
-      origem: product.origem,
+      nome: product.name,
+      descricao: product.description,
+      preco: product.price.toString(),
+      imagem: product.photo,
+      origem: product.provider,
       quantity,
     });
 
     return this.cartItemRepository.save(newItem);
-  }
+}
 
   async getCart() {
     const items = await this.cartItemRepository.find();

@@ -6,7 +6,7 @@ export class CartItem {
   id: string;
 
   @Column()
-  productId: string;
+  productId: number;
 
   @Column()
   nome: string;

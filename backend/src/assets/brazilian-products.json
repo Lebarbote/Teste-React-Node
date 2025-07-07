@@ -1,0 +1,83 @@
+[
+  {
+    "id": "11",
+    "name": "Cafeteira Elétrica Premium",
+    "description": "Cafeteira com timer e jarra de inox.",
+    "brand": "Tradição",
+    "photo": "https://via.placeholder.com/300x200.png?text=Cafeteira",
+    "price": 189.9
+  },
+  {
+    "id": "12",
+    "name": "Liquidificador Turbo Max",
+    "description": "6 velocidades e copo de 2L resistente.",
+    "brand": "MaxBlend",
+    "photo": "https://via.placeholder.com/300x200.png?text=Liquidificador",
+    "price": 149.5
+  },
+  {
+    "id": "13",
+    "name": "Fone Bluetooth Esportivo",
+    "description": "Bateria de 12h, resistente à água.",
+    "brand": "SoundFit",
+    "photo": "https://via.placeholder.com/300x200.png?text=Fone",
+    "price": 89.9
+  },
+  {
+    "id": "14",
+    "name": "Smartwatch Preto",
+    "description": "Monitor cardíaco, sono e notificações.",
+    "brand": "TimePro",
+    "photo": "https://via.placeholder.com/300x200.png?text=Smartwatch",
+    "price": 199.9
+  },
+  {
+    "id": "15",
+    "name": "Cadeira Gamer Pro",
+    "description": "Ergonômica com reclinação 180º.",
+    "brand": "ErgoMax",
+    "photo": "https://via.placeholder.com/300x200.png?text=Cadeira",
+    "price": 999.9
+  },
+  {
+    "id": "16",
+    "name": "Teclado Mecânico RGB",
+    "description": "Switch azul, iluminação programável.",
+    "brand": "KeyForce",
+    "photo": "https://via.placeholder.com/300x200.png?text=Teclado",
+    "price": 269.0
+  },
+  {
+    "id": "17",
+    "name": "Mouse Gamer Óptico",
+    "description": "DPI ajustável até 7200.",
+    "brand": "ClickZone",
+    "photo": "https://via.placeholder.com/300x200.png?text=Mouse",
+    "price": 119.0
+  },
+  {
+    "id": "18",
+    "name": "Carregador Rápido USB-C",
+    "description": "20W com tecnologia de carregamento rápido.",
+    "brand": "VoltPlus",
+    "photo": "https://via.placeholder.com/300x200.png?text=Carregador",
+    "price": 59.9
+  },
+  {
+    "id": "19",
+    "name": "Headset com Microfone",
+    "description": "Cancelamento de ruído e áudio estéreo.",
+    "brand": "AudioPro",
+    "photo": "https://via.placeholder.com/300x200.png?text=Headset",
+    "price": 169.0
+  },
+  {
+    "id": "20",
+    "name": "Webcam Full HD",
+    "description": "Imagem nítida para chamadas e streaming.",
+    "brand": "VisionCam",
+    "photo": "https://via.placeholder.com/300x200.png?text=Webcam",
+    "price": 139.9
+  }
+]
+
