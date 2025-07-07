@@ -1,35 +1,31 @@
 class Product {
-  final String id;
-  final String nome;
-  final String descricao;
-  final String preco;
-  final String imagem;
-  final String origem;
+  final int id;
+  final String name;
+  final String description;
+  final String brand;
+  final String photo;
+  final double price;
+  final String provider;
 
   Product({
     required this.id,
-    required this.nome,
-    required this.descricao,
-    required this.preco,
-    required this.imagem,
-    required this.origem,
+    required this.name,
+    required this.description,
+    required this.brand,
+    required this.photo,
+    required this.price,
+    required this.provider,
   });
 
- factory Product.fromJson(Map<String, dynamic> json) {
-  String parseField(dynamic field) {
-    if (field is List) {
-      return field.join(' ');
-    }
-    return field.toString();
+  factory Product.fromJson(Map<String, dynamic> json) {
+    return Product(
+      id: json['id'],
+      name: json['name'],
+      description: json['description'],
+      brand: json['brand'],
+      photo: json['photo'],
+      price: (json['price'] as num).toDouble(),
+      provider: json['provider'],
+    );
   }
-
-  return Product(
-    id: json['id'].toString(),
-    nome: parseField(json['nome']),
-    descricao: parseField(json['descricao']),
-    preco: json['preco'].toString(),
-    imagem: json['imagem'] ?? '',
-    origem: json['origem'] ?? '',
-  );
-}
 }

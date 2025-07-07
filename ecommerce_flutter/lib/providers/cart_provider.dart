@@ -7,15 +7,15 @@ class CartProvider with ChangeNotifier {
   Map<String, CartItem> get items => {..._items};
 
   double get totalAmount {
-    return _items.values
-        .fold(0, (sum, item) => sum + item.preco * item.quantidade);
+    return _items.values.fold(
+        0, (sum, item) => sum + item.price * item.quantity);
   }
 
   void addItem({
     required String productId,
-    required String nome,
-    required String imagem,
-    required double preco,
+    required String name,
+    required String photo,
+    required double price,
   }) {
     if (_items.containsKey(productId)) {
       _items.update(
@@ -23,10 +23,10 @@ class CartProvider with ChangeNotifier {
         (existing) => CartItem(
           id: existing.id,
           productId: existing.productId,
-          nome: existing.nome,
-          imagem: existing.imagem,
-          preco: existing.preco,
-          quantidade: existing.quantidade + 1,
+          name: existing.name,
+          photo: existing.photo,
+          price: existing.price,
+          quantity: existing.quantity + 1,
         ),
       );
     } else {
@@ -35,10 +35,10 @@ class CartProvider with ChangeNotifier {
         () => CartItem(
           id: DateTime.now().toString(),
           productId: productId,
-          nome: nome,
-          imagem: imagem,
-          preco: preco,
-          quantidade: 1,
+          name: name,
+          photo: photo,
+          price: price,
+          quantity: 1,
         ),
       );
     }

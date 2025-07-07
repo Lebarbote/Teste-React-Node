@@ -34,29 +34,28 @@ class CartPage extends StatelessWidget {
                     itemBuilder: (ctx, index) {
                       final item = cartItems[index];
                       return Card(
-                        margin:
-                            const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                         child: ListTile(
                           leading: Container(
                             width: 60,
                             height: 60,
                             decoration: BoxDecoration(
-                              color: Colors.orange.shade50,
+                              color: Colors.indigo,
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: const Icon(
                               Icons.shopping_bag,
                               size: 30,
-                              color: Colors.deepOrange,
+                              color: Colors.indigo,
                             ),
                           ),
-                          title: Text(item.nome),
-                          subtitle: Text('Quantity: ${item.quantidade}'),
+                          title: Text(item.name),
+                          subtitle: Text('Quantity: ${item.quantity}'),
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(
-                                'US\$ ${(item.preco * item.quantidade).toStringAsFixed(2)}',
+                                'US\$ ${(item.price * item.quantity).toStringAsFixed(2)}',
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -76,8 +75,7 @@ class CartPage extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                   decoration: BoxDecoration(
                     color: Colors.grey[100],
                     boxShadow: const [
@@ -105,7 +103,7 @@ class CartPage extends StatelessWidget {
                             style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
-                              color: Colors.deepOrange,
+                              color: Colors.indigo,
                             ),
                           ),
                         ],
@@ -115,7 +113,7 @@ class CartPage extends StatelessWidget {
                         width: double.infinity,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.deepOrange,
+                            backgroundColor: Colors.indigo,
                             padding: const EdgeInsets.symmetric(vertical: 14),
                           ),
                           onPressed: () {

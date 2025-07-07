@@ -12,10 +12,10 @@ class OrdersProvider with ChangeNotifier {
       0,
       OrderItem(
         id: DateTime.now().toString(),
-        total: total,
-        products: cartProducts,
+        amount: total,
+        items: cartProducts,
         date: DateTime.now(),
-      ),
+      )
     );
     notifyListeners();
   }

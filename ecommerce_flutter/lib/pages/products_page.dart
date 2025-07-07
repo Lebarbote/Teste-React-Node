@@ -127,16 +127,16 @@ class _ProductsPageState extends State<ProductsPage> {
                     child: const Icon(
                       Icons.shopping_bag,
                       size: 30,
-                      color: Colors.deepOrange,
+                      color: Colors.indigo,
                     ),
                   ),
-                  title: Text(product.nome),
-                  subtitle: Text(product.descricao),
+                  title: Text(product.name),
+                  subtitle: Text(product.description),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        'US\$ ${product.preco}',
+                        'US\$ ${product.price.toStringAsFixed(2)}',
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 14,
@@ -144,17 +144,17 @@ class _ProductsPageState extends State<ProductsPage> {
                       ),
                       IconButton(
                         icon: const Icon(Icons.add_shopping_cart),
-                        color: Colors.deepOrange,
+                        color: Colors.indigo,
                         onPressed: () {
                           cart.addItem(
-                            productId: product.id,
-                            nome: product.nome,
-                            imagem: product.imagem,
-                            preco: double.parse(product.preco),
+                            productId: product.id.toString(),
+                            name: product.name,
+                            photo: product.photo,
+                            price: product.price,
                           );
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text('${product.nome} added to cart!'),
+                              content: Text('${product.name} added to cart!'),
                               duration: const Duration(seconds: 1),
                             ),
                           );
