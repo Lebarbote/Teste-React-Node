@@ -1,176 +1,96 @@
 import { useEffect, useState } from 'react';
 import { api } from '../services/api';
-import { Link } from 'react-router-dom';
-
-const getStatusColor = (status: string) => {
-  switch (status) {
-    case 'pending':
-      return 'bg-blue-100 text-blue-600';
-    case 'paid':
-      return 'bg-green-100 text-green-600';
-    case 'shipped':
-      return 'bg-yellow-100 text-yellow-700';
-    case 'delivered':
-      return 'bg-green-200 text-green-800';
-    case 'cancelled':
-      return 'bg-red-100 text-red-600';
-    default:
-      return 'bg-gray-100 text-gray-600';
-  }
-};
+import { toast } from 'react-toastify';
 
 interface Order {
   id: number;
-  createdAt: string;
-  status: string;
-  total: number;
   items: {
-    id: string;
+    productId: string;
     nome: string;
-    descricao: string;
     preco: string;
     quantity: number;
   }[];
+  total: number;
+  status: string;
+  createdAt: string;
 }
 
 export default function Orders() {
   const [orders, setOrders] = useState<Order[]>([]);
-  const [showConfirm, setShowConfirm] = useState(false);
 
-  const loadOrders = async () => {
-    const response = await api.get('/orders');
-    setOrders(response.data);
-  };
-
-  const handleStatusChange = async (orderId: number, newStatus: string) => {
-    await api.patch(`/orders/${orderId}/status`, { status: newStatus });
-    loadOrders();
-  };
-
-  const handleClearOrders = async () => {
-    await api.delete('/orders');
-    setShowConfirm(false);
-    loadOrders();
+  const fetchOrders = () => {
+    api.get('/orders').then((response) => {
+      setOrders(response.data);
+    });
   };
 
   useEffect(() => {
-    loadOrders();
+    fetchOrders();
   }, []);
+
+  const handleClearOrders = async () => {
+    try {
+      await api.delete('/orders');
+      toast.success('Orders deleted successfully!');
+      fetchOrders();
+    } catch (error) {
+      toast.error('❌ Error deleting orders.');
+    }
+  };
 
   return (
     <div className="p-6">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-4xl font-bold">Orders</h1>
-        <button
-          onClick={() => setShowConfirm(true)}
-          className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full shadow active:scale-95"
-        >
-          Clear Orders
-        </button>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-4xl font-bold">My Orders</h1>
+
+        {orders.length > 0 && (
+          <button
+            onClick={handleClearOrders}
+            className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded shadow"
+          >
+            Clear Orders
+          </button>
+        )}
       </div>
 
       {orders.length === 0 ? (
-        <p className="text-center text-gray-600">No orders found.</p>
+        <p className="text-center text-gray-500">No orders found.</p>
       ) : (
-        <div className="flex flex-col gap-8">
+        <div className="space-y-6">
           {orders.map((order) => (
             <div
               key={order.id}
-              className="bg-white rounded-2xl shadow-xl p-6 flex flex-col gap-4"
+              className="bg-white rounded-xl shadow-md p-4"
             >
-              <div className="flex justify-between items-center">
-                <div>
-                  <h2 className="text-xl font-semibold">
-                    Order #{order.id}
-                  </h2>
-                  <p className="text-gray-600">
-                    Date: {new Date(order.createdAt).toLocaleString()}
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-4">
-                  <span
-                    className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(
-                      order.status
-                    )}`}
-                  >
-                    {order.status}
-                  </span>
-
-                  <select
-                    value={order.status}
-                    onChange={(e) =>
-                      handleStatusChange(order.id, e.target.value)
-                    }
-                    className="border rounded px-3 py-1"
-                  >
-                    <option value="pending">Pending</option>
-                    <option value="paid">Paid</option>
-                    <option value="shipped">Shipped</option>
-                    <option value="delivered">Delivered</option>
-                    <option value="cancelled">Cancelled</option>
-                  </select>
-                </div>
+              <div className="flex justify-between items-center mb-2">
+                <h2 className="text-xl font-semibold">Order #{order.id}</h2>
+                <span className="text-sm text-gray-500 italic">
+                  {new Date(order.createdAt).toLocaleDateString()}
+                </span>
               </div>
 
-              <div className="flex flex-col gap-3">
+              <ul className="mb-2 space-y-1">
                 {order.items.map((item, index) => (
-                  <div
-                    key={index}
-                    className="flex gap-4 items-center border-b pb-2"
-                  >
-                    <div className="flex-1">
-                      <p className="font-semibold">{item.nome}</p>
-                      <p className="text-gray-600">{item.descricao}</p>
-                      <p>
-                        Quantity: {item.quantity} | Unit Price: US$ {item.preco}
-                      </p>
-                    </div>
-                    <p className="font-bold">
-                      Subtotal: US${' '}
-                      {(
-                        parseFloat(item.preco) * item.quantity
-                      ).toFixed(2)}
-                    </p>
-                  </div>
+                  <li key={index} className="text-sm text-gray-700">
+                    {item.quantity}x {item.nome} — US$ {parseFloat(item.preco).toFixed(2)}
+                  </li>
                 ))}
-              </div>
+              </ul>
 
-              <div className="text-right text-xl font-bold">
-                Total: US$ {order.total.toFixed(2)}
+              <div className="flex justify-between items-center">
+                <p className="font-bold">Total: US$ {order.total.toFixed(2)}</p>
+                <span
+                  className={`px-3 py-1 rounded-full text-xs font-medium ${
+                    order.status === 'pending'
+                      ? 'bg-yellow-100 text-yellow-800'
+                      : 'bg-green-100 text-green-800'
+                  }`}
+                >
+                  {order.status}
+                </span>
               </div>
             </div>
           ))}
-        </div>
-      )}
-
-      <div className="mt-8 text-center">
-        <Link to="/" className="underline">
-          ← Back to Products
-        </Link>
-      </div>
-
-      {showConfirm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white rounded-lg p-6 shadow-lg w-96">
-            <h2 className="text-xl font-semibold mb-4">
-              Are you sure you want to delete all orders?
-            </h2>
-            <div className="flex justify-end gap-4">
-              <button
-                onClick={() => setShowConfirm(false)}
-                className="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleClearOrders}
-                className="px-4 py-2 rounded bg-red-500 text-white hover:bg-red-600"
-              >
-                Confirm
-              </button>
-            </div>
-          </div>
         </div>
       )}
     </div>

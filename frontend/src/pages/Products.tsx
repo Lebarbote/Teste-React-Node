@@ -11,14 +11,7 @@ export default function Products() {
 
   useEffect(() => {
     api.get('/products').then((response) => {
-      const filtered = response.data.filter(
-        (p: Product) =>
-          p.nome?.trim() !== '' &&
-          p.descricao?.trim() !== '' &&
-          p.preco?.trim() !== '' &&
-          p.origem?.trim() !== ''
-      );
-      setProducts(filtered);
+      setProducts(response.data);
     });
   }, []);
 
@@ -39,31 +32,31 @@ export default function Products() {
           >
             <img
               src={
-                product.imagem ||
+                product.photo ||
                 'https://via.placeholder.com/300x200.png?text=No+Image'
               }
-              alt={product.nome}
+              alt={product.name}
               className="w-full h-48 object-cover rounded-xl"
             />
 
             <div className="flex justify-between items-center mt-4">
-              <h2 className="text-xl font-semibold">{product.nome}</h2>
+              <h2 className="text-xl font-semibold">{product.name}</h2>
 
               <span
                 className={`px-3 py-1 rounded-full text-xs font-medium ${
-                  product.origem === 'Brazil'
+                  product.provider === 'brazilian'
                     ? 'bg-green-100 text-green-700'
                     : 'bg-blue-100 text-blue-700'
                 }`}
               >
-                {product.origem}
+                {product.provider}
               </span>
             </div>
 
             <p className="text-gray-600 mt-2 line-clamp-3">
-              {product.descricao}
+              {product.description}
             </p>
-            <p className="text-lg font-bold mt-2">US$ {product.preco}</p>
+            <p className="text-lg font-bold mt-2">US$ {product.price}</p>
 
             <button
               onClick={() => handleAddToCart(product)}

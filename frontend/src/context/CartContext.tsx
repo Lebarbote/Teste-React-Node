@@ -1,12 +1,13 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 
 export interface Product {
-  id: string;
-  nome: string;
-  descricao: string;
-  preco: string;
-  imagem: string;
-  origem: string;
+  id: number;
+  name: string;
+  description: string;
+  brand: string;
+  photo: string;
+  price: number;
+  provider: string;
 }
 
 export interface CartItem extends Product {
@@ -16,7 +17,7 @@ export interface CartItem extends Product {
 interface CartContextType {
   cart: CartItem[];
   addToCart: (product: Product) => void;
-  removeFromCart: (id: string) => void;
+  removeFromCart: (id: number) => void;
   clearCart: () => void;
 }
 
@@ -52,7 +53,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
-  const removeFromCart = (id: string) => {
+  const removeFromCart = (id: number) => {
     setCart((prevCart) => prevCart.filter((item) => item.id !== id));
   };
 
