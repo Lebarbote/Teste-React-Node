@@ -1,4 +1,4 @@
-<h1> Este é um projeto fullstack desenvolvido para o desafio técnico. Trata-se de um e-commerce completo, capaz de: </h1>
+<h1> Este é um projeto fullstack desenvolvido para um desafio técnico. Trata-se de um e-commerce completo, capaz de: </h1>
 
 
 - Consumir produtos de dois fornecedores externos (Brasil e Europa);
@@ -25,7 +25,6 @@
     <li>Node.js</li>
     <li>NestJS</li>
     <li>TypeORM</li>
-    <li>SQLite (banco local)</li>
     <li>Axios</li>
     <li>Validation Pipe</li>
   </ul>
@@ -39,13 +38,12 @@
 </ul>
 
 
-<h2>🛠️ (APIs Externas) </h2>
- <p>Os produtos são consumidos a partir das seguintes APIs:</p>
 
-  <ul>
-    <li>Fornecedor <strong>Brasileiro</strong>: <a href="http://616d6bdb6dacbb001794ca17.mockapi.io/devnology/brazilian_provider" target="_blank">Clique aqui</a></li>
-    <li>Fornecedor <strong>Europeu</strong>: <a href="http://616d6bdb6dacbb001794ca17.mockapi.io/devnology/european_provider" target="_blank">Clique aqui</a></li>
-  </ul>
+<h2>🛠️ Como os dados dos produtos são obtidos </h2>
+ <p>Os produtos são armazenados e servidos por uma API desenvolvida com NestJS. Ao inicializar o backend, ele realiza a integração com duas fontes externas (Brasil e Europa) para buscar os dados apenas uma vez — esses dados são então salvos localmente no banco SQLite.
+
+Tanto o frontend React quanto o app Flutter consomem essa API local, acessando os produtos de forma rápida e estruturada através da rota:</p>
+<pre><code>GET /products</code></pre>
 
 
 <h2>🛠️ Como rodar o projeto localmente</h2>
