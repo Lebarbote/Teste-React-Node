@@ -30,22 +30,19 @@ export default function Products() {
             key={product.id}
             className="bg-white rounded-xl shadow-xl p-4 flex flex-col hover:scale-105 transition-transform"
           >
+
             <img
-              src={
-                product.photo ||
-                'https://via.placeholder.com/300x200.png?text=No+Image'
-              }
-              alt={product.name}
-              className="w-full h-48 object-cover rounded-xl"
+              src="/shopping-cart.png"
+              alt="Product"
+              className="w-full h-48 object-contain rounded-xl"
             />
 
             <div className="flex justify-between items-center mt-4">
               <h2 className="text-xl font-semibold">{product.name}</h2>
-
               <span
                 className={`px-3 py-1 rounded-full text-xs font-medium ${
                   product.provider === 'brazilian'
-                    ? 'bg-green-100 text-green-700'
+                    ? 'bg-blue-100 text-blue-700'
                     : 'bg-blue-100 text-blue-700'
                 }`}
               >
@@ -60,7 +57,7 @@ export default function Products() {
 
             <button
               onClick={() => handleAddToCart(product)}
-              className="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-full shadow-md cursor-pointer active:scale-95 mt-auto"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full shadow-md cursor-pointer active:scale-95 mt-auto"
             >
               Add to Cart
             </button>

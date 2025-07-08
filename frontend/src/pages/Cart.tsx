@@ -68,7 +68,7 @@ export default function Cart() {
 
             <button
               onClick={handleSubmitOrder}
-              className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-full shadow-md"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full shadow-md"
             >
               Submit Request
             </button>
