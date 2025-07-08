@@ -2,7 +2,7 @@
 
 O backend é uma API desenvolvida com Node.js e NestJS, que gerencia a lógica do e-commerce, incluindo:
 
-Consumo de produtos de dois fornecedores externos: Fornecedor Brasileiro e Fornecedor Europeu;
+Consumo de produtos de dois fornecedores (Brasil e Europa) para buscar os dados apenas uma vez — esses dados são então salvos localmente no banco SQLite;
 
 Gestão do carrinho de compras: Adicionar itens, Remover itens, Limpar carrinho e Consultar o carrinho atual;
 
